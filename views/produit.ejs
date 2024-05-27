@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="icon" href="/LBS.png" type="image/x-icon" />
+        <title>Vente de Boîtes de Fruits</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/style2.css">
+        <link rel="stylesheet" href="/style3.css">
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/admin/produits">
+                <img src="/LBS.png" alt="Logo app" width="40" height="34" class="d-inline-block align-text-top">
+                <span>App crm</span>
+            </a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="/">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Gestionnaire
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/admin/produits">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Produits
+                                    </a>
+                                    <a class="nav-link" href="/admin/users">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Client
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <% if (users) {%>
+                            <% users.forEach((row, users)=>{%>
+                                <%= row.name %></p>
+                            <%}) %>
+                        <%} %>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Produits</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Produits</li>
+                        </ol>
+                        <div>
+                            <button type="button" class="btn-refential" data-bs-toggle="modal" data-bs-target="#produitModal">+ New Produit</button>
+                            <div class="modal" tabindex="-1" id="produitModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Créer un produit</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="produitForm" action="/admin/produits/create" method="POST" autocomplete="off">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Tilte<span>*</span></label>
+                                                    <input type="text" class="form-control" id="nameInput" name="title" value="<%= produits.title%>" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="description" class="form-label">Description<span>*</span></label>
+                                                    <input type="text" class="form-control" name="description" placeholder="Entrez une description..." id="description" required>         
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="imageUrl" class="form-label">URL de l'image <span>*</span></label>
+                                                    <input type="url" class="form-control" id="imageUrl" name="imageUrl"  placeholder="Entrez une URL..." required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="prix" class="form-label">Prix<span>*</span></label>
+                                                    <input type="number" class="form-control" name="price" placeholder="Entrez le prix..." id="prix" required>         
+                                                </div>
+                                                <div  class="mb-3">
+                                                    <label for="quantite" class="form-label">Quantité</label>
+                                                    <input type="number" class="form-control" id="quantite" placeholder="Entrez la quantité du produit..." name="quantite" min="0" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Active</label>
+                                                    <select class="form-select" name="active" aria-label="Default select example" id="activeSelect">
+                                                        <option selected></option>
+                                                        <option value="1">Oui</option>
+                                                        <option value="0">Non</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary" id="saveProduitBtn">Save produit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Liste des produits
+                            </div>
+                            <div class="card-body">
+                                <% if(produits != '') {%>
+                                    <table id="datatablesSimple">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>price</th>
+                                                <th>Quantite</th>
+                                                <th>Active</th>
+                                                <th>Actions</th>
+                                                <th>Select</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>price</th>
+                                                <th>Quantite</th>
+                                                <th>Active</th>
+                                                <th>Actions</th>
+                                                <th>Select</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <% produits.forEach((row, produits) =>{%>
+                                                <tr>
+                                                    <td><%=row.title%></td>
+                                                    <td><%=row.description%></td>
+                                                    <td><%=row.price%> $</td>
+                                                    <td><%=row.quantite%></td>
+                                                    <td><%=row.active ? 'Oui' : 'Non' %></td>
+                                                    <td>
+                                                        <a href="">
+                                                            <button type="button"><i class="fa-solid fa-eye"></i></button>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fas fa-edit fa-lg mx-1"></i></button>
+                                                            <div class="modal" tabindex="-1" id="updateModal">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">produit Update</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form id="produitForm" action="/admin/produits/update/<%= row._id %>" method="POST" autocomplete="off">
+                                                                                <div class="mb-3">
+                                                                                    <label for="name" class="form-label">Tilte<span>*</span></label>
+                                                                                    <input type="text" class="form-control" id="nameInput" name="title" value="<%= produits.title%>" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="description" class="form-label">Description<span>*</span></label>
+                                                                                    <input type="text" class="form-control" name="description" id="description" required>         
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="imageUrl" class="form-label">URL de l image <span>*</span></label>
+                                                                                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="prix" class="form-label">Prix<span>*</span></label>
+                                                                                    <input type="number" class="form-control" name="price" id="prix" required>         
+                                                                                </div>
+                                                                                <div  class="mb-3">
+                                                                                    <label for="quantite" class="form-label">Quantité</label>
+                                                                                    <input type="number" class="form-control" id="quantite" name="quantite" min="0" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Active</label>
+                                                                                    <select class="form-select" name="active" aria-label="Default select example" id="activeSelect">
+                                                                                        <option selected></option>
+                                                                                        <option value="1">Oui</option>
+                                                                                        <option value="0">Non</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                    <button type="submit" class="btn btn-primary" id="updatedProduitBtn">Save produit</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button" class="delete-btn" onclick="deleteRef('<%= row._id %>')"><i class="fas fa-trash fa-lg mx-1" ></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <%})%>
+                                        </tbody>
+                                    </table>
+                                <% } else {%>
+                                    <h1 class="text-center text-secondary nt-5"> No produit found in the database!</h1>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">&copy; 2023 CRM Fruit Box. Tous droits réservés.</div>
+                            <div>
+                                <a href="#">Politique de confidentialité</a>
+                                &middot;
+                                <a href="#">FAQ &amp; Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script>
+            const deleteRef = (refId) =>{
+                fetch(`/admin/produits/delete/${refId}`,{
+                    method:"DELETE"
+                }).then(response=>{
+                    console.log("response : ",response,window);
+                    window.location.reload();
+                }).catch(error=>{
+                    console.log("response error : ",error)
+                })
+            }
+
+            window.addEventListener('DOMContentLoaded', event => {
+
+                // Toggle the side navigation
+                const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                if (sidebarToggle) {
+                    // Uncomment Below to persist sidebar toggle between refreshes
+                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                    //     document.body.classList.toggle('sb-sidenav-toggled');
+                    // }
+                    sidebarToggle.addEventListener('click', event => {
+                        event.preventDefault();
+                        document.body.classList.toggle('sb-sidenav-toggled');
+                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                    });
+                }
+            
+            });
+
+            window.addEventListener('DOMContentLoaded', event => {
+
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>

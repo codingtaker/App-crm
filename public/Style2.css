@@ -1,0 +1,122 @@
+body {
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    background: rgb(218, 217, 217);
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.logo{
+    text-decoration: none;
+    list-style: none;
+    color: rgb(58, 61, 61);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 50px;
+    font-size: 1rem;
+    margin-left: 5%;
+}
+span{
+    margin-right: auto;
+    padding: 15px;
+    line-height: 1.5;
+    font-weight: bold;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+button a{
+    text-decoration: none;
+    list-style: none;
+    color: white;
+    font-weight: bold;
+}
+a:hover{
+    color: rgb(111, 0, 255);
+ }
+ a:active{
+    text-decoration-color: #FF5F6D;
+ }
+
+.subscribe {
+    margin-right: 30px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(1, 12, 48);
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.search {
+    width: 100%;
+    background: linear-gradient(to left, #57b6ea, #318b7c);
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.search input {
+    padding: 10px;
+}
+
+.search button {
+    padding: 10px;
+    background-color: rgb(1, 48, 1);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.container {
+    margin-top: 20px;
+}
+.btn-refential, .btn-refentialData, .btn-DataElement{
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgba(0, 41, 112, 0.87);
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.modal-body span{
+    color: red;
+}
+.modal-body label input{
+    display: block;
+}
+
+th i{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+i{
+    border: none;
+    cursor: pointer;
+}
+
+h1, h2{
+    margin: 10px;
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/LBS.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://kit.fontawesome.com/e2a5c34890.js" crossorigin="anonymous"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Connexion</h1>
+        <form action="/" method="post" autocomplete="off">
+            <div class="form-group">
+                <label for="email">Courriel<span class="required"> *</span></label>
+                <input type="email" placeholder="Email" name="email" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="password">Mot de passe<span class="required"> *</span></label>
+                <div class="password-container">
+                    <input tabindex="2" id="password" class="" placeholder="Password" name="password" type="password" autocomplete="off" aria-invalid="">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+            </div>
+            <button type="submit" class="submit-button">Se Connecter</button>
+        </form>
+        <script>
+            let input = document.querySelector('.password-container input');
+            let showBtn = document.querySelector('.password-container i');
+            showBtn.onclick = function(){
+                if (input.type === "password"){
+                    input.type = "text";
+                    showBtn.classList.add('active');
+                }else{
+                    input.type = "password";
+                    showBtn.classList.remove('active');
+                }
+            }
+        </script>
+        <p>Vous n'avez pas de compte? <a href="/signup">S'inscrire</a></p>
+    </div>
+</body>
+</html>

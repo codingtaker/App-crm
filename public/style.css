@@ -1,0 +1,101 @@
+*{
+    margin: auto;
+    padding: 0;
+}
+
+body{
+    background: linear-gradient(#bdc3c7,#e3e5ff );
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container{
+    width: 400px;
+    height: 80%;
+    margin: 50px;
+    padding: 40px;
+    background: white;
+    border: 1px solid rgb(196, 195, 195);
+    border-radius: 5px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+.form-group label{
+    display: block;
+    margin-bottom: 5px;
+    font-family: bold;
+}
+.form-group input{
+    width: 100%;
+    padding: 5px;
+    border: 2px solid rgb(196, 195, 195);
+    border-radius: 5px;
+}
+.submit-button{
+    display: block;
+    width: 100%;
+    padding: 5px;
+    border:none;
+    border-radius: 5px;
+    background: rgb(119, 154, 163);
+    font-family: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+p{
+    text-align: center;;
+}
+span{
+    color: red;
+}
+
+.container{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+::placeholder{
+    color: black;
+}
+
+input{
+    height: 2rem;
+    border-radius: 5px;
+    border: 2px solid rgb(118, 118, 118);
+    padding-left: 1rem;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    outline: none;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+.password-container i{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.password-container i.active::before{
+    content: "\f070";
+}
+button{
+    width: 100px;
+    margin: 10px;
+    height: 35px;
+    background: rgb(119, 154, 163);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
