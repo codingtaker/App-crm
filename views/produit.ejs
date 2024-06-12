@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <link rel="icon" href="/LBS.png" type="image/x-icon" />
+        <link rel="icon" href="/img/icone.ico" type="image/x-icon" />
         <title>Vente de Boîtes de Fruits</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="/style2.css">
@@ -15,7 +15,7 @@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="/admin/produits">
-                <img src="/LBS.png" alt="Logo app" width="40" height="34" class="d-inline-block align-text-top">
+                <img src="/img/logo.png" alt="Logo app" width="80" height="60" class="d-inline-block align-text-top">
                 <span>App crm</span>
             </a>
             <!-- Sidebar Toggle-->
@@ -32,7 +32,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="/admin/dashbord">Profil</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="/">Logout</a></li>
                     </ul>
@@ -44,11 +44,15 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="/admin/dashbord">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link" href="/api/v1/home">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Acceuil
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface Admin</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Gestionnaire
@@ -83,9 +87,16 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Produits</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/dashbord">Dashboard</a></li>
                             <li class="breadcrumb-item active">Produits</li>
                         </ol>
+                        <% if (message) { %>
+                            <div class="alert alert-dismissible fade show alert-<%= message.type %>"
+                               role="alert">
+                               <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                               <strong><%= message.message %></strong>
+                           </div>
+                           <% } %>
                         <div>
                             <button type="button" class="btn-refential" data-bs-toggle="modal" data-bs-target="#produitModal">+ New Produit</button>
                             <div class="modal" tabindex="-1" id="produitModal">
@@ -96,18 +107,18 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="produitForm" action="/admin/produits/create" method="POST" autocomplete="off">
+                                            <form id="produitForm" action="/admin/produits/create" method="POST" autocomplete="off" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Tilte<span>*</span></label>
-                                                    <input type="text" class="form-control" id="nameInput" name="title" value="<%= produits.title%>" required>
+                                                    <input type="text" class="form-control" id="nameInput" name="title" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description<span>*</span></label>
-                                                    <input type="text" class="form-control" name="description" placeholder="Entrez une description..." id="description" required>         
+                                                    <textarea type="text" class="form-control" name="description" placeholder="Entrez une description..." id="description" required></textarea>  
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="imageUrl" class="form-label">URL de l'image <span>*</span></label>
-                                                    <input type="url" class="form-control" id="imageUrl" name="imageUrl"  placeholder="Entrez une URL..." required>
+                                                    <label for="imageUrl" class="form-label">Image du produit <span>*</span></label>
+                                                    <input type="file" name="images" class="form-control" id="imageUrl" accept=".png, .jpg, .jpeg" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="prix" class="form-label">Prix<span>*</span></label>
@@ -190,26 +201,26 @@
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form id="produitForm" action="/admin/produits/update/<%= row._id %>" method="POST" autocomplete="off">
+                                                                            <form id="produitForm" action="/admin/produits/update/<%= row._id %>" method="POST" autocomplete="off" enctype="multipart/form-data">
                                                                                 <div class="mb-3">
                                                                                     <label for="name" class="form-label">Tilte<span>*</span></label>
-                                                                                    <input type="text" class="form-control" id="nameInput" name="title" value="<%= produits.title%>" required>
+                                                                                    <input type="text" class="form-control" id="nameInput" name="title" value="<%= row.title%>" required>
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="description" class="form-label">Description<span>*</span></label>
-                                                                                    <input type="text" class="form-control" name="description" id="description" required>         
+                                                                                    <textarea type="text" class="form-control" name="description" value="<%= row.description%>" id="description" required></textarea>          
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="imageUrl" class="form-label">URL de l image <span>*</span></label>
-                                                                                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" required>
+                                                                                    <label for="imageUrl" class="form-label">Image du produit <span>*</span></label>
+                                                                                    <input type="file" name="images" class="form-control" id="imageUrl"  accept=".png, .jpg, .jpeg" required>
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="prix" class="form-label">Prix<span>*</span></label>
-                                                                                    <input type="number" class="form-control" name="price" id="prix" required>         
+                                                                                    <input type="number" class="form-control" name="price" value="<%= row.price%>" id="prix" required>         
                                                                                 </div>
                                                                                 <div  class="mb-3">
                                                                                     <label for="quantite" class="form-label">Quantité</label>
-                                                                                    <input type="number" class="form-control" id="quantite" name="quantite" min="0" required>
+                                                                                    <input type="number" class="form-control" id="quantite" name="quantite" value="<%= row.quantite%>" min="0" required>
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label class="form-label">Active</label>
@@ -245,7 +256,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">&copy; 2023 CRM Fruit Box. Tous droits réservés.</div>
+                            <div class="text-muted">&copy; 2024 CRM Fruit Box. Tous droits réservés.</div>
                             <div>
                                 <a href="#">Politique de confidentialité</a>
                                 &middot;
@@ -273,10 +284,6 @@
                 // Toggle the side navigation
                 const sidebarToggle = document.body.querySelector('#sidebarToggle');
                 if (sidebarToggle) {
-                    // Uncomment Below to persist sidebar toggle between refreshes
-                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-                    //     document.body.classList.toggle('sb-sidenav-toggled');
-                    // }
                     sidebarToggle.addEventListener('click', event => {
                         event.preventDefault();
                         document.body.classList.toggle('sb-sidenav-toggled');

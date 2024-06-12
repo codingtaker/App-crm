@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Vente de Boîtes de Fruits - Profil</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="/img/icone.ico" type="image/x-icon" />
+    <link href="/bootstrap.min.css" rel="stylesheet">
+    <link href="/style1.css" rel="stylesheet">
+</head>
+
+    <body>
+        <!-- Navbar start -->
+        <div class="container-fluid fixed-top">
+            <div class="container px-0">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                    <a href="/api/v1/profil" class="navbar-brand">
+                        <img src="/img/logo.png" alt="Logo app" width="80" height="60" class="d-inline-block align-text-top">
+                        <h1 class="text-primary display-7">AppCRM</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler py-2 px-3">
+                        <span class="fa fa-bars text-primary"></span>
+                    </button>
+                    <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a href="/api/v1/home" class="nav-item nav-link">Acceuil</a>
+                            <a href="/api/v1/shop" class="nav-item nav-link">Produits</a>
+                            <a href="/api/v1/profil" class="nav-item nav-link active">Profil</a>
+                        </div>
+                        <div class="d-flex m-3 me-0">
+                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                            <a href="#" class="position-relative me-4 my-auto">
+                                <i class="fa fa-shopping-bag fa-2x"></i>
+                            </a>
+                            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="/api/v1/profil">Profil</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item" href="/">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Profil</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="/api/v1/home">Acceuil</a></li>
+                <li class="breadcrumb-item active text-white">Profil</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+
+        <!-- Contact Start -->
+        <div class="container-fluid contact py-5">
+            <div class="container py-5">
+                    <% if (message) { %>
+                        <div class="alert alert-dismissible fade show alert-<%= message.type %>"
+                           role="alert">
+                           <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                           <strong><%= message.message %></strong>
+                       </div>
+                       <% } %>
+                <div class="p-5 bg-light rounded">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="text-center mx-auto" style="max-width: 700px;">
+                                <h1 class="text-primary">Paramètres du compte</h1>
+                                <p class="mb-4">Retrouvez toutes les informations de connexion à votre compte.</p>
+                            </div>
+                        </div>
+                        <% if(users != '') {%>
+                            <% users.forEach((row) => { %>
+                                <div class="col-lg-7">
+                                    <form action="/api/v1/profil/update/<%= row._id %>" method="POST" autocomplete="off">
+                                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="name" value="<%= row.name %>">
+                                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" name="email" value="<%= row.email %>">
+                                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="role" value="<%= row.role %>">
+                                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Modifier</button>
+                                    </form>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="d-flex p-4 rounded mb-4 bg-white">
+                                        <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
+                                        <div>
+                                            <h4>Address</h4>
+                                            <p class="mb-2">Kégué, Lomé - Togo</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex p-4 rounded bg-white">
+                                        <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
+                                        <div>
+                                            <h4>Telephone</h4>
+                                            <p class="mb-2">(+228) 70458300</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                            <% } else {%>
+                                <h1 class="text-center text-secondary nt-5"> Erreur lors de l\'affichage du profil</h1>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+
+        <!-- Fruits Shop End-->
+        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+            <div class="container py-5">
+                <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                    <div class="row g-4">
+                        <div class="col-lg-3">
+                            <a href="#">
+                                <img src="/img/logo.png" alt="Logo app" width="100" height="84" class="d-inline-block align-text-top">
+                                <p class="text-secondary mb-0">Fresh products</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
+                                <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="d-flex justify-content-end pt-3">
+                                <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href="https://x.com/BenicioAllaglo"><svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#FFD43B" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="https://www.facebook.com/benicio.empeios"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href="https://www.linkedin.com/in/benicio-allaglo-20b5b4254"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>2024 CRM Fruit Box</a>, Tous droits réservés.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                        <a class="border-bottom" href="#">FAQ &amp; Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./main.js"></script>
+    </body>
+
+</html>

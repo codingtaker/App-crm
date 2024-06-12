@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="icon" href="/img/icone.ico" type="image/x-icon" />
+        <title>Vente de Boîtes de Fruits - AdminDashbord</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/style2.css">
+        <link rel="stylesheet" href="/style3.css">
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="/admin/dashbord">
+                <img src="/img/logo.png" alt="Logo app" width="80" height="60" class="d-inline-block align-text-top">
+                <span>App crm</span>
+            </a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/admin/dashbord">Profil</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="/">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <a class="nav-link" href="/admin/dashbord">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <a class="nav-link" href="/api/v1/home">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Acceuil
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface Admin</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Gestionnaire
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/admin/produits">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Produits
+                                    </a>
+                                    <a class="nav-link" href="/admin/users">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                        Client
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <% if (users) {%>
+                            <% users.forEach((row, users)=>{%>
+                                <%= row.name %></p>
+                            <%}) %>
+                        <%} %>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Profil</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Profil</li>
+                        </ol>
+                        <div class="container-fluid contact py-5">
+                            <div class="container py-5">
+                                <div class="p-5 bg-light rounded">
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <% if (message) { %>
+                                                <div class="alert alert-dismissible fade show alert-<%= message.type %>"
+                                                   role="alert">
+                                                   <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                   <strong><%= message.message %></strong>
+                                               </div>
+                                               <% } %>
+                                            <div class="text-center mx-auto" style="max-width: 700px;">
+                                                <h1 class="text-primary">Paramètres du compte</h1>
+                                                <p class="mb-4">Retrouvez toutes les informations de connexion à votre compte.</p>
+                                            </div>
+                                        </div>
+                                        <% if (users != '') {%>
+                                            <% users.forEach((row, users) =>{%>
+                                                <div class="col-lg-7">
+                                                    <form action="/admin/dashbord/update/<%= row._id %>" method="POST"  autocomplete="off">
+                                                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="name" value="<%= row.name %>">
+                                                        <input type="email" class="w-100 form-control border-0 py-3 mb-4" name="email" value="<%= row.email %>">
+                                                        <input type="text" class="w-100 form-control border-0 py-3 mb-4" name="role" value="<%= row.role %>">
+                                                        <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit">Modifier</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="d-flex p-4 rounded mb-4 bg-white">
+                                                        <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
+                                                        <div>
+                                                            <h4>Address</h4>
+                                                            <p class="mb-2">Lomé - Togo</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex p-4 rounded bg-white">
+                                                        <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
+                                                        <div>
+                                                            <h4>Telephone</h4>
+                                                            <p class="mb-2">(+228) 93660001</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <%})%>
+                                        <%} else {%>
+                                            <h1 class="text-center text-secondary nt-5"> Erreur lors de l\'affichage du profil</h1>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">&copy; 2024 CRM Fruit Box. Tous droits réservés.</div>
+                            <div>
+                                <a href="#">Politique de confidentialité</a>
+                                &middot;
+                                <a href="#">FAQ &amp; Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script>
+            window.addEventListener('DOMContentLoaded', event => {
+
+                // Toggle the side navigation
+                const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                if (sidebarToggle) {
+                    // Uncomment Below to persist sidebar toggle between refreshes
+                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                    //     document.body.classList.toggle('sb-sidenav-toggled');
+                    // }
+                    sidebarToggle.addEventListener('click', event => {
+                        event.preventDefault();
+                        document.body.classList.toggle('sb-sidenav-toggled');
+                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                    });
+                }
+            
+            });
+
+            window.addEventListener('DOMContentLoaded', event => {
+
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>

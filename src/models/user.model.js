@@ -4,16 +4,25 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema =  new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: [true,'Veuillez entrer votre nom!'],
     },
-    email: {
+    email:{
+        type: String,
+        required: [true,'Veuillez entrer un email valide !'],
+        unique: true
+    },
+    password:{
         type: String,
         required: true,
-        unique: true,
     },
-    password: {
+    
+    created_at: {
+        type: String
+    },
+    role:{
         type: String,
-        required: true,
+        enum: ["customers", "admin"],
+        defaultValue: "admin"
     }
 });
 

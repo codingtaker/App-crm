@@ -21,7 +21,12 @@ exports.postSignup = async (req, res) => {
             return res.status(400).json({ message: "L'utilisateur existe déjà. Veuillez choisir un autre courriel." });
           }
           const hashedPassword = await bcrypt.hash(password, 10);
-          const newUser = new User({ name, email, password: hashedPassword });
+          const newUser = new User({ 
+            name, 
+            email, 
+            password: hashedPassword, 
+            role: req.body.role || 'customers' 
+          });
           await newUser.save();
           req.session.user = newUser;
           return res.redirect("/");
@@ -47,19 +52,21 @@ exports.postLogin = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.redirect("/");
+      req.flash('errorMessage', 'Utilisateur introuvable. Veuillez créer un compte.');
+      return res.redirect("/signup");
     }
 
     const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
-    
     if (isPasswordMatch) {
-      req.session.user = user
-      return res.redirect("/admin/dashbord");
+      req.session.user = user;
+      return res.redirect("/api/v1/home");
     } else {
-      return res.send("Identifiant/mot de passe incorrect");
+      req.flash('errorMessage', 'Identifiant/mot de passe incorrect');
+      return res.redirect("/");
     }
-  } catch(err) {
+  } catch (err) {
     console.error(err);
+    req.flash('errorMessage', 'Une erreur est survenue. Veuillez réessayer.');
     return res.redirect("/");
   }
-}
+};

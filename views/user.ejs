@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <link rel="icon" href="/LBS.png" type="image/x-icon" />
+        <link rel="icon" href="/img/icone.ico" type="image/x-icon" />
         <title>Vente de Boîtes de Fruits</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="/style2.css">
@@ -15,7 +15,7 @@
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="/admin/produits">
-                <img src="/LBS.png" alt="Logo app" width="40" height="34" class="d-inline-block align-text-top">
+                <img src="/img/logo.png" alt="Logo app" width="80" height="60" class="d-inline-block align-text-top">
                 <span>App crm</span>
             </a>
             <!-- Sidebar Toggle-->
@@ -32,7 +32,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="/admin/dashbord">Profil</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="/">Logout</a></li>
                     </ul>
@@ -44,11 +44,15 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="/admin/dashbord">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link" href="/api/v1/home">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Acceuil
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface Admin</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Gestionnaire
@@ -86,41 +90,14 @@
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                             <li class="breadcrumb-item active">Customers</li>
                         </ol>
-                        <div>
-                            <button type="button" class="btn-refential" data-bs-toggle="modal" data-bs-target="#userModal">+ Nouveau Utilisateur</button>
-                            <div class="modal" tabindex="-1" id="userModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Créer un utilisateur</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="userForm" action="/admin/users/create" method="POST" autocomplete="off">
-                                                <div class="mb-3">
-                                                    <label for="name" class="form-label">Name<span>*</span></label>
-                                                    <input type="text" class="form-control" id="nameInput" name="name" value="<%= users.name%>" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email<span>*</span></label>
-                                                    <input type="email" class="form-control" name="email" placeholder=" asjf@gmail.com" id="email" required>         
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="password" class="form-label">Password<span>*</span></label>
-                                                    <input type="password" class="form-control" name="password" id="email" required>         
-                                                </div>
-                                                <div class="mb-3">
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary" id="saveUserBtn">Save user</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
+                        <% if (message) { %>
+                            <div class="alert alert-dismissible fade show alert-<%= message.type %>"
+                               role="alert">
+                               <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                               <strong><%= message.message %></strong>
+                           </div>
+                           <% } %>
+
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -229,10 +206,6 @@
                 // Toggle the side navigation
                 const sidebarToggle = document.body.querySelector('#sidebarToggle');
                 if (sidebarToggle) {
-                    // Uncomment Below to persist sidebar toggle between refreshes
-                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-                    //     document.body.classList.toggle('sb-sidenav-toggled');
-                    // }
                     sidebarToggle.addEventListener('click', event => {
                         event.preventDefault();
                         document.body.classList.toggle('sb-sidenav-toggled');

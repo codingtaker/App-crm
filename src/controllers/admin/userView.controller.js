@@ -30,6 +30,7 @@ exports.createUser = async (req, res) => {
             name,
             email,
             password,
+            role: req.body.role || 'customers'
         });
         try {
             await newUser.save();

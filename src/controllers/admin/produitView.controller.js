@@ -1,6 +1,7 @@
+// controllers/admin/produitView.controller.js
 const Produits = require('../../models/produit.model');
-const user = require('../../models/user.model');
 const User = require('../../models/user.model');
+const upload = require('../../middleware/mutler-config');
 
 exports.getProduitsPage = async (req, res) => {
     try {
@@ -11,10 +12,10 @@ exports.getProduitsPage = async (req, res) => {
             };
             return res.redirect('/');
         }
-        const email = req.session.user.email
-        const users = await User.find({email: email});
-        const produits = await Produits.find()
-        return res.render("produit", {produits, users});
+        const email = req.session.user.email;
+        const users = await User.find({ email: email });
+        const produits = await Produits.find();
+        return res.render("produit", { produits, users });
     } catch (error) {
         console.error(error);
         res.status(500).send('Erreur lors de l\'affichage de la page des produits.');
@@ -22,36 +23,49 @@ exports.getProduitsPage = async (req, res) => {
 };
 
 exports.createProduit = async (req, res) => {
-    try {
-        //ToDo: Save produit
-        const { title, description, imageUrl, userId, price, quantite, active } = req.body;
-        if (!title || !description || !imageUrl || !price || !quantite || !active) {
-            throw new Error("Veuillez remplir tous les champs") 
-          }
-        const newProduit = new Produits({
-        title,
-        description,
-        imageUrl,
-        price,
-        quantite,
-        active,
-        created_at: new Date()
-        });
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error(err);
+            return res.redirect('/admin/produits');
+        }
+
         try {
+            const { title, description, price, quantite } = req.body;
+            const active = req.body.active !== undefined ? req.body.active : false;
+            const imageUrl = req.file ? `/images/${req.file.filename}` : null;
+
+            if (!title || !description || !imageUrl || !price || !quantite) {
+                req.session.message = {
+                    type: 'danger',
+                    message: 'Veuillez remplir tous les champs.'
+                };
+                return res.redirect('/admin/produits');
+            }
+
+            const newProduit = new Produits({
+                title,
+                description,
+                imageUrl,
+                price,
+                quantite,
+                active,
+                created_at: new Date()
+            });
             await newProduit.save();
             req.session.message = {
                 type: 'success',
-                message: 'Un produit à été créer avec succès!'
-            }
+                message: 'Un produit a été créé avec succès!'
+            };
             return res.redirect("/admin/produits");
         } catch (error) {
-            console.log(error)
-            return res.redirect("/admin/produits")
+            console.error(error);
+            req.session.message = {
+                type: 'danger',
+                message: 'Erreur lors de la création du produit.'
+            };
+            return res.redirect("/admin/produits");
         }
-    } catch (error) {
-        console.error(error);
-        return res.redirect('/admin/produits')
-    }
+    });
 };
 
 exports.updateProduit = async (req, res) => {
@@ -59,13 +73,13 @@ exports.updateProduit = async (req, res) => {
         const updateProduit = await Produits.findByIdAndUpdate(req.params.id,
             { $set: req.body, update_on: new Date() },
             { new: true });
-          if (!updateProduit) {
-            return res.status(404).json({ message: "Produit non trouvé", type:"danger" });
-          }
-          req.session.message = {
-            type:"info",
-            message: "Mise à jour réussi 👍"
-          };
+        if (!updateProduit) {
+            return res.status(404).json({ message: "Produit non trouvé", type: "danger" });
+        }
+        req.session.message = {
+            type: "info",
+            message: "Mise à jour réussie 👍"
+        };
         return res.redirect("/admin/produits");
     } catch (error) {
         console.error(error);
@@ -75,16 +89,15 @@ exports.updateProduit = async (req, res) => {
 
 exports.deleteProduit = async (req, res) => {
     try {
-        //ToDo: delete Produit
         await Produits.findByIdAndDelete(req.params.id);
         req.session.message = {
-            type:"info",
+            type: "info",
             message: "Produit supprimé avec succès😁"
         };
-        return res.status(200).json({message:"COOL"})
+        return res.status(200).json({ message: "COOL" });
     } catch (error) {
         console.error(error);
-        res.redirect('/admin/produits')
+        res.redirect('/admin/produits');
     }
 };
 
@@ -94,11 +107,10 @@ exports.getElementById = async (req, res) => {
         const produits = await Produits.find({
             title: { $regex: searchKey, $options: 'i' }
         });
-        console.log("produits:", produits)
-        return res.render("produits", {produits});
+        return res.render("produits", { produits });
     } catch (error) {
         console.error(error);
-        res.redirect('/admin/produits')
+        res.redirect('/admin/produits');
     }
 };
 
@@ -108,9 +120,9 @@ exports.getElementByKey = async (req, res) => {
         const produits = await Produits.find({
             title: { $regex: searchKey, $options: 'i' }
         });
-        return res.render("produits", {produits});
+        return res.render("produits", { produits });
     } catch (error) {
         console.error(error);
-        res.redirect('/admin/produits')
+        res.redirect('/admin/produits');
     }
 }

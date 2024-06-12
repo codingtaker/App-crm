@@ -1,39 +1,141 @@
-*{
-    margin: auto;
-    padding: 0;
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins",
+    sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0faff;
+}
+.wrapper {
+  position: relative;
+  max-width: 470px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 20px
+    30px
+    120px;
+  background: #4070f4;
+  box-shadow: 0
+    5px
+    10px
+    rgba(
+      0,
+      0,
+      0,
+      0.1
+    );
+  overflow: hidden;
 }
 
-body{
-    background: linear-gradient(#bdc3c7,#e3e5ff );
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+.form
+  header {
+  font-size: 30px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.form.login
+  header {
+  color: #000000;
+  opacity: 0.6;
 }
 
-.form-container{
-    width: 400px;
-    height: 80%;
-    margin: 50px;
-    padding: 40px;
-    background: white;
-    border: 1px solid rgb(196, 195, 195);
-    border-radius: 5px;
+.wrapper.active
+  .login
+  header {
+  opacity: 0.6;
+}
+.wrapper
+  form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+form
+  input {
+  height: 60px;
+  outline: none;
+  border: none;
+  padding: 0
+    15px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 8px;
+  background: #fff;
 }
 
-.form-group{
-    margin-bottom: 20px;
+form
+  .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.form-group label{
-    display: block;
-    margin-bottom: 5px;
-    font-family: bold;
+.checkbox
+  input[type="checkbox"] {
+  height: 16px;
+  width: 16px;
+  accent-color: #fff;
+  cursor: pointer;
 }
+form
+  .checkbox
+  label {
+  cursor: pointer;
+  color: #fff;
+}
+form a {
+  color: #333;
+  text-decoration: none;
+}
+form
+  a:hover {
+  text-decoration: underline;
+}
+form
+  input[type="submit"] {
+  margin-top: 15px;
+  padding: none;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .form-group input{
-    width: 100%;
-    padding: 5px;
-    border: 2px solid rgb(196, 195, 195);
-    border-radius: 5px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}
+.password-container {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+}
+.password-container i{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.password-container i.active::before{
+  content: "\f070";
+}
+p, a{
+  text-decoration: none;
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 .submit-button{
     display: block;
@@ -41,61 +143,8 @@ body{
     padding: 5px;
     border:none;
     border-radius: 5px;
-    background: rgb(119, 154, 163);
+    background: rgb(0, 204, 255);
     font-family: bold;
     font-size: 20px;
-    cursor: pointer;
-}
-p{
-    text-align: center;;
-}
-span{
-    color: red;
-}
-
-.container{
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-::placeholder{
-    color: black;
-}
-
-input{
-    height: 2rem;
-    border-radius: 5px;
-    border: 2px solid rgb(118, 118, 118);
-    padding-left: 1rem;
-    color: rgb(0, 0, 0);
-    font-size: 1rem;
-    outline: none;
-}
-
-.password-container {
-    position: relative;
-    width: 100%;
-    display: inline-block;
-}
-.password-container i{
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-.password-container i.active::before{
-    content: "\f070";
-}
-button{
-    width: 100px;
-    margin: 10px;
-    height: 35px;
-    background: rgb(119, 154, 163);
-    border: none;
-    border-radius: 3px;
     cursor: pointer;
 }
