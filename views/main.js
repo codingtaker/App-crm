@@ -20,12 +20,10 @@
             } else {
             $('.fixed-top').removeClass('shadow');
             }
-        } else {
-            if ($(this).scrollTop() > 55) {
+        } else if ($(this).scrollTop() > 55) {
             $('.fixed-top').addClass('shadow').css('top', -55);
-            } else {
+        } else {
             $('.fixed-top').removeClass('shadow').css('top', 0);
-            }
         }
     });
     
@@ -136,12 +134,10 @@
         let newVal;
         if (button.hasClass('btn-plus')) {
             newVal = parseFloat(oldValue) + 1;
-        } else {
-            if (oldValue > 0) {
-                newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
+        } else if (oldValue > 0){
+            newVal = parseFloat(oldValue) - 1;
+        }else {
+            newVal = 0;
         }
         button.parent().parent().find('input').val(newVal);
     });
