@@ -7,7 +7,7 @@ exports.checkRole = (allowedRoles) =>{
           type:"danger",
           message: "403 Access denied"
         };
-        return res.redirect("/api/v1/home")
+        return res.redirect("/api/login");
       }
       next();
     }

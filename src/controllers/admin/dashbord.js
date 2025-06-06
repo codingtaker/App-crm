@@ -16,7 +16,7 @@ exports.getDashbord = async (req, res) => {
         return res.render("dashbord", {users, produits});
     } catch (error) {
         console.error(error);
-        res.status(500).send('Erreur lors de l\'affichage de la page des utilisateur.');
+        res.status(500).send('Erreur lors de l\'affichage de la page des utilisateurs.');
     }
 }
 
