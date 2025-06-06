@@ -22,6 +22,14 @@ exports.getUserPage = async(req, res )=>{
 exports.createUser = async (req, res) => {
     try {
         //ToDo: Save User
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) {
+            req.session.message = {
+          type: 'danger',
+          message: 'Un utilisateur avec cet email existe déjà.'
+            };
+            return res.redirect("/admin/users");
+        }
         const { name, email, password} = req.body;
         if(!name ||!email || !password){
           throw new Error("Veuillez remplir tous les champs")

@@ -434,7 +434,7 @@ legend + * {
   -webkit-appearance: textfield;
 }
 
-/* rtl:raw:
+
 [type="tel"],
 [type="url"],
 [type="email"],
@@ -3404,9 +3404,6 @@ textarea.form-control-lg {
 }
 .dropend .dropdown-toggle:empty::after {
   margin-left: 0;
-}
-.dropend .dropdown-toggle::after {
-  vertical-align: 0;
 }
 
 .dropstart .dropdown-menu[data-bs-popper] {

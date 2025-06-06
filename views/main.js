@@ -2,31 +2,31 @@
     "use strict";
 
     // Spinner
-    var spinner = function () {
+    let spinner = function () {
         setTimeout(function () {
             if ($('#spinner').length > 0) {
                 $('#spinner').removeClass('show');
             }
         }, 1);
     };
-    spinner(0);
+    spinner();
 
 
     // Fixed Navbar
     $(window).scroll(function () {
         if ($(window).width() < 992) {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow');
+            $('.fixed-top').addClass('shadow');
             } else {
-                $('.fixed-top').removeClass('shadow');
+            $('.fixed-top').removeClass('shadow');
             }
         } else {
             if ($(this).scrollTop() > 55) {
-                $('.fixed-top').addClass('shadow').css('top', -55);
+            $('.fixed-top').addClass('shadow').css('top', -55);
             } else {
-                $('.fixed-top').removeClass('shadow').css('top', 0);
+            $('.fixed-top').removeClass('shadow').css('top', 0);
             }
-        } 
+        }
     });
     
     
@@ -114,7 +114,7 @@
 
     // Modal Video
     $(document).ready(function () {
-        var $videoSrc;
+        let $videoSrc;
         $('.btn-play').click(function () {
             $videoSrc = $(this).data("src");
         });
@@ -129,17 +129,16 @@
         })
     });
 
-
-
     // Product Quantity
     $('.quantity button').on('click', function () {
-        var button = $(this);
-        var oldValue = button.parent().parent().find('input').val();
+        let button = $(this);
+        let oldValue = button.parent().parent().find('input').val();
+        let newVal;
         if (button.hasClass('btn-plus')) {
-            var newVal = parseFloat(oldValue) + 1;
+            newVal = parseFloat(oldValue) + 1;
         } else {
             if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
+                newVal = parseFloat(oldValue) - 1;
             } else {
                 newVal = 0;
             }

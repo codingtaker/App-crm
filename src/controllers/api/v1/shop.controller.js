@@ -40,7 +40,11 @@ exports.updateShop = async (req, res) => {
 
 exports.deleteShop = async (req, res) => {
     try {
-        //ToDo: delete Produit
+        // Vérifier si le produit existe avant de supprimer
+        const produit = await Produits.findById(req.params.id);
+        if (!produit) {
+            return res.status(404).json({ message: "Produit non trouvé", type: "danger" });
+        }
         await Produits.findByIdAndDelete(req.params.id);
         req.session.message = {
             type:"info",
