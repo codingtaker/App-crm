@@ -45,8 +45,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejsbodyParser");
+app.use(.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
